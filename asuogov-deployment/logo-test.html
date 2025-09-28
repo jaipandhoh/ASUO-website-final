@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASUO Logo Test - Netlify</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .success { color: green; font-weight: bold; }
+    .error { color: red; font-weight: bold; }
+    .logo-test {
+      border: 2px solid #ddd;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .logo-test img {
+      max-height: 100px;
+      border: 1px solid #ccc;
+      margin: 10px 0;
+    }
+    .path-info {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 ASUO Logo Test for Netlify</h1>
+  <p>This page tests if the ASUO logo is accessible on your Netlify deployment.</p>
+
+  <div class="test-section">
+    <h2>Test 1: Absolute Path (Current)</h2>
+    <div class="logo-test">
+      <p><strong>Path:</strong></p>
+      <div class="path-info">/2024-ASUO-Seal-BLK.png</div>
+      <img src="/2024-ASUO-Seal-BLK.png" alt="ASUO Logo" 
+           onload="showResult('test1', true)" 
+           onerror="showResult('test1', false)">
+      <div id="test1"></div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 2: Relative Path</h2>
+    <div class="logo-test">
+      <p><strong>Path:</strong></p>
+      <div class="path-info">2024-ASUO-Seal-BLK.png</div>
+      <img src="2024-ASUO-Seal-BLK.png" alt="ASUO Logo" 
+           onload="showResult('test2', true)" 
+           onerror="showResult('test2', false)">
+      <div id="test2"></div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 3: Relative with ./</h2>
+    <div class="logo-test">
+      <p><strong>Path:</strong></p>
+      <div class="path-info">./2024-ASUO-Seal-BLK.png</div>
+      <img src="./2024-ASUO-Seal-BLK.png" alt="ASUO Logo" 
+           onload="showResult('test3', true)" 
+           onerror="showResult('test3', false)">
+      <div id="test3"></div>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>📋 Results Summary</h2>
+    <div id="summary">
+      <p>Loading tests...</p>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>🔧 Netlify-Specific Instructions</h2>
+    <ol>
+      <li><strong>Upload all files</strong> from the <code>asuogov-deployment</code> folder to your Netlify site</li>
+      <li><strong>Make sure</strong> <code>2024-ASUO-Seal-BLK.png</code> is in the root directory</li>
+      <li><strong>Check</strong> that the logo file is not in a subfolder</li>
+      <li><strong>Verify</strong> the file permissions are correct</li>
+    </ol>
+    
+    <h3>Your Netlify file structure should look like:</h3>
+    <div class="path-info">
+      your-netlify-site/<br>
+      ├── index.html<br>
+      ├── 2024-ASUO-Seal-BLK.png ← Must be here<br>
+      ├── our-directors.html<br>
+      ├── meet-the-directors.html<br>
+      └── ... (other files)
+    </div>
+  </div>
+
+  <script>
+    function showResult(testId, success) {
+      const resultDiv = document.getElementById(testId);
+      if (success) {
+        resultDiv.innerHTML = '<p class="success">✅ SUCCESS - This path works!</p>';
+      } else {
+        resultDiv.innerHTML = '<p class="error">❌ FAILED - This path doesn\'t work</p>';
+      }
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const tests = ['test1', 'test2', 'test3'];
+      const workingTests = tests.filter(testId => {
+        const result = document.getElementById(testId);
+        return result.innerHTML.includes('✅ SUCCESS');
+      });
+
+      const summaryDiv = document.getElementById('summary');
+      if (workingTests.length > 0) {
+        summaryDiv.innerHTML = `
+          <p class="success">✅ ${workingTests.length} path(s) are working!</p>
+          <p>Use the working path format for your main website files.</p>
+          <p><strong>Recommended:</strong> Use the first working path for all your HTML files.</p>
+        `;
+      } else {
+        summaryDiv.innerHTML = `
+          <p class="error">❌ No paths are working</p>
+          <p><strong>Problem:</strong> The logo file is not accessible on your Netlify site.</p>
+          <p><strong>Solution:</strong> Make sure <code>2024-ASUO-Seal-BLK.png</code> is uploaded to the root directory of your Netlify site.</p>
+        `;
+      }
+    }
+
+    // Auto-update summary after tests load
+    setTimeout(updateSummary, 3000);
+  </script>
+</body>
+</html>
