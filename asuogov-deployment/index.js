@@ -296,17 +296,17 @@ class CampusEventsManager {
     try {
       this.showLoading();
       
-      // Try Google Sheets first, then fallback to local JSON
+      // Use local JSON directly since Google Sheets URL is not working
       let events = [];
       
       try {
-        console.log('🔄 Loading events from Google Sheets...');
-        events = await this.loadFromGoogleSheets();
-        console.log('✅ Successfully loaded events from Google Sheets');
-      } catch (sheetsError) {
-        console.log('⚠️ Google Sheets failed, trying local JSON...', sheetsError);
+        console.log('🔄 Loading events from local JSON...');
         events = await this.loadFromLocalJSON();
         console.log('✅ Successfully loaded events from local JSON');
+      } catch (jsonError) {
+        console.log('⚠️ Local JSON failed, trying Google Sheets...', jsonError);
+        events = await this.loadFromGoogleSheets();
+        console.log('✅ Successfully loaded events from Google Sheets');
       }
       
       this.events = events;
